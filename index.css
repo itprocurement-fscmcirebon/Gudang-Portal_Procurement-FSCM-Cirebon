@@ -101,7 +101,7 @@ body{
 }
 
 .download-qr-code:hover{
-    background-color: #00a3a3 ;
+    background-color: #008080;
 }
 .qr-canvas{
     background-color: white;

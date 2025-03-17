@@ -10,6 +10,8 @@ document.addEventListener("DOMContentLoaded", function() {
     let qrImage = document.querySelector('.qr-image');
     const loading = document.querySelector('.loading');
 
+    
+
     downloadButton.disabled = true;
 
     generateCodeButton.onclick = async () => {
@@ -24,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function() {
         let imgSrc = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${userData}`;
 
         loading.style.display = 'block';
-        if(kodeBarang !== '' || namaBarang !== '' || namaSupplier !== '' || noSuratJalan !== '' || noPo !== '' || qtyValue !== ''){
+        if(kodeBarang !== '' && namaBarang !== '' && namaSupplier !== '' && noSuratJalan !== '' && noPo !== '' && qtyValue !== ''){
             let response = await fetch(imgSrc);
             let data = await response.blob();
             qrImage.src = URL.createObjectURL(data);
@@ -32,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             downloadButton.disabled = false;
         } else {
-            alert('Please enter valid field data!');
+            alert('Tolong isi semua kolom yang ada!');
             loading.style.display = 'none';
         }
         URL.revokeObjectURL(data);
