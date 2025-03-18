@@ -1,43 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>QR Code Generator | FSCM Manufacturing Indonesia</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
-    <link rel = "stylesheet" href="./index.css">
-</head>
-<body>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
+      integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+      defer
+    ></script>
+    <link rel="stylesheet" href="./index.css" />
+  </head>
+  <body>
+    <!-- <header class="navbar">
+      <h1>QR Code Generator - FSCM</h1>
+    </header> -->
+
     <div class="container">
-        <div class="user-data">
-            <h2>QR Code Generator</h2>
-            <div class="form-section">
-            <div class="column">
-                <label for=""><b>Kode Barang</b></label>
-                <input type="text" class="kode-barang input" placeholder="Input Kode Barang...">
-                <label for=""><b>Nama Barang</b></label>
-                <input type="text" class="nama-barang input" placeholder="Input Nama Barang...">
-                <label for=""><b>Nama Supplier</b></label>
-                <input type="text" class="nama-supplier input" placeholder="Input Nama Supplier...">
-            </div>
-            <div class="column">
-                <label for=""><b>No Surat Jalan</b></label>
-                <input type="text" class="no-surat-jalan input" placeholder="Input No Surat Jalan...">
-                <label for=""><b>No PO</b></label>
-                <input type="text" class="no-po input" placeholder="Input No PO...">
-                <label for=""><b>QTY</b></label>
-                <input type="number" class="qty input" placeholder="Input QTY...">
-            </div>
+      <div class="user-data">
+        <div class="form-section">
+          <div class="column">
+            <label for=""><b>Kode Barang</b></label>
+            <input
+              type="text"
+              class="kode-barang input"
+              placeholder="Input Kode Barang..."
+            />
+            <label for=""><b>Nama Barang</b></label>
+            <input
+              type="text"
+              class="nama-barang input"
+              placeholder="Input Nama Barang..."
+            />
+            <label for=""><b>Nama Supplier</b></label>
+            <input
+              type="text"
+              class="nama-supplier input"
+              placeholder="Input Nama Supplier..."
+            />
+          </div>
+          <div class="column">
+            <label for=""><b>No Surat Jalan</b></label>
+            <input
+              type="text"
+              class="no-surat-jalan input"
+              placeholder="Input No Surat Jalan..."
+            />
+            <label for=""><b>No PO</b></label>
+            <input
+              type="text"
+              class="no-po input"
+              placeholder="Input No PO..."
+            />
+            <label for=""><b>QTY</b></label>
+            <input type="number" class="qty input" placeholder="Input QTY..." />
+          </div>
         </div>
         <button class="generate-qr-code">Generate QR code</button>
         <button class="download-qr-code">Download QR code</button>
-    </div>
-    <div class="qr-canvas">
+      </div>
+      <div class="qr-canvas">
         <h2>QR code</h2>
         <div class="loading"></div>
-        <img src="" alt="" class="qr-image">
+        <img src="" alt="" class="qr-image" />
+      </div>
     </div>
 
     <script src="index.js"></script>
-</body>
+  </body>
 </html>
