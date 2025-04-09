@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QR Code Generator | FSCM Manufacturing Indonesia</title>
+    <link rel="stylesheet" href="./index.css" />
+  </head>
+  <body>
+    <header>
+      <img
+        src="assets/FSCM-Manufacturing-Indonesia-1-1024x368-1.png"
+        alt="FSCM Manufacturing Indonesia"
+        class="logo-fscm"
+      />
+      <nav>
+        <ul>
+          <li><a href="#">Input Data</a></li>
+          <li><a href="GenerateDownload.html">Generate & Download</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <div class="container">
+      <div class="user-data">
+        <h2>Generate QR Code - FSCM</h2>
+        <div class="form-section">
+          <div class="column">
+            <label><b>Kode Barang</b></label>
+            <input
+              type="text"
+              id="kode-barang"
+              class="input"
+              placeholder="Input Kode Barang..."
+              autocomplete="off"
+            />
+
+            <label><b>Nama Barang</b></label>
+            <input
+              type="text"
+              id="nama-barang"
+              class="input"
+              placeholder="Input Nama Barang..."
+              autocomplete="off"
+            />
+
+            <label><b>Nama Supplier</b></label>
+            <input
+              type="text"
+              id="nama-supplier"
+              class="input"
+              placeholder="Input Nama Supplier..."
+              autocomplete="off"
+            />
+          </div>
+
+          <div class="column">
+            <label><b>No Surat Jalan</b></label>
+            <input
+              type="text"
+              id="no-surat-jalan"
+              class="input"
+              placeholder="Input No Surat Jalan..."
+              autocomplete="off"
+            />
+
+            <label><b>No PO</b></label>
+            <input
+              type="text"
+              id="no-po"
+              class="input"
+              placeholder="Input No PO..."
+              autocomplete="off"
+            />
+
+            <label><b>QTY</b></label>
+            <input
+              type="number"
+              id="qty"
+              class="input"
+              placeholder="Input QTY..."
+              autocomplete="off"
+            />
+          </div>
+        </div>
+        <button id="save-input">Save Input</button>
+      </div>
+    </div>
+    <!-- footer -->
+    <footer>
+      <p class="title">
+        &copy; Procurement - FSCM Manufacturing Indonesia 2025 (Cirebon Plant)
+      </p>
+    </footer>
+    <script src="Input.js"></script>
+  </body>
+</html>

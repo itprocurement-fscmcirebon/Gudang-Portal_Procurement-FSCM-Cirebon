@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QR Code Generator | FSCM Manufacturing Indonesia</title>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
+      defer
+    ></script>
+    <link rel="stylesheet" href="./index.css" />
+  </head>
+  <body>
+    <header>
+      <img src="assets/FSCM-Manufacturing-Indonesia-1-1024x368-1.png" alt="FSCM Manufacturing Indonesia" class="logo-fscm">
+      <nav>
+        <ul>
+          <li><a href="Input.html">Input Data</a></li>
+          <li><a href="#">Generate & Download</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <div class="container">
+      <div class="user-data">
+        <h1>Result</h1>
+
+        <!-- Tempat menampilkan daftar data -->
+        <div class="column" id="saved-data-list"></div>
+
+        <!-- Tombol untuk menghapus semua data -->
+        <button
+          class="delete-all"
+          onclick="clearAllData()"
+          style="
+            background-color: #780C28;
+            color: white;
+            margin-top: 10px;
+            cursor: pointer;
+            border-radius: 0.75rem;
+            border: none;
+          "
+        >
+          Hapus Semua
+        </button>
+
+        <button id="generate-qr-code">Generate QR Code</button>
+        <button id="download-qr-code" disabled>Download QR Code</button>
+      </div>
+
+      <div class="qr-canvas">
+        <h2>QR Code</h2>
+        <div id="qr-image"></div>
+      </div>
+    </div>
+    <!-- footer -->
+    <footer>
+      <p class="title">&copy; Procurement - FSCM Manufacturing Indonesia 2025 (Cirebon Plant)</p>
+    </footer>
+    <script src="GenerateDownload.js"></script>
+  </body>
+</html>
