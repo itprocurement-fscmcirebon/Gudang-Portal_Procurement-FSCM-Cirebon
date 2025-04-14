@@ -21,11 +21,11 @@ document.addEventListener("DOMContentLoaded", function () {
       <div class="data-card">
       <p><strong>Data ${index + 1}:</strong></p>
       <p>Kode Barang: ${data.kodeBarang}</p>
-      <p>Nama Barang: ${data.namaBarang}</p>
       <p>Nama Supplier: ${data.namaSupplier}</p>
-      <p>No Surat Jalan: ${data.noSuratJalan}</p>
+      <p>No Surat Jalan: ${data.noSuratJalan}</p> 
       <p>No PO: ${data.noPo}</p>
       <p>QTY: ${data.qty}</p>
+      <p>Satuan: ${data.satuan}</p>
       <button onclick="deleteData(${index})" class="hapus-button">Hapus</button>
       </div>
       `;
@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let qrData = savedData
       .map(
         (data) =>
-          `${data.kodeBarang} | ${data.namaBarang} | ${data.namaSupplier} | ${data.noSuratJalan} | ${data.noPo} | ${data.qty}`
+          `${data.kodeBarang} | ${data.namaSupplier} | ${data.noSuratJalan} | ${data.noPo} | ${data.qty} | ${data.satuan}`
       )
       .join(";\n"); // Pisahkan setiap data dengan baris baru
 
