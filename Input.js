@@ -8,20 +8,27 @@ document.addEventListener("DOMContentLoaded", function () {
     let qty = document.getElementById("qty").value;
     let satuan = document.getElementById("satuan").value;
 
+    
     // Validasi input (opsional)
     if (!kodeBarang || !namaSupplier || !noSuratJalan || !noPo || !qty || !satuan) {
       alert("Harap isi semua data!");
       return;
     }
-
+    
+    // Validasi Kode Supplier
+    if (!namaSupplier.startsWith("SPP")) {
+      alert("Kode Supplier harus diawali dengan 'SPP'!");
+      return;
+    }
+    
     // Ambil data lama dari localStorage
     let savedData = JSON.parse(localStorage.getItem("savedData")) || [];
 
     // Cek apakah sudah ada 3 entri
-    // if (savedData.length >= 3) {
-    //   alert("Maksimal hanya 3 entri yang boleh disimpan!");
-    //   return;
-    // }
+    if (savedData.length >= 3) {
+      alert("Maksimal hanya 3 entri yang boleh disimpan!");
+      return;
+    }
 
     // Tambahkan data baru ke array
     savedData.push({
