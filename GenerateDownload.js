@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
       <div class="data-card">
       <p><strong>Data ${index + 1}:</strong></p>
       <p>Kode Barang: ${data.kodeBarang}</p>
-      <p>Nama Supplier: ${data.namaSupplier}</p>
+      <p>Kode Supplier: ${data.namaSupplier}</p>
       <p>No Surat Jalan: ${data.noSuratJalan}</p> 
       <p>No PO: ${data.noPo}</p>
       <p>QTY: ${data.qty}</p>
