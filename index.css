@@ -7,8 +7,7 @@ html {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   transition: 0.2s ease;
-  text-decoration: none !important;
-  overflow-y: auto;
+  text-decoration: none !important; 
 }
 :root {
   --blueColor: #1da1f2;
@@ -84,6 +83,71 @@ body {
   padding-bottom: 20px;
 }
 
+.autocomplete-wrapper {
+  position: relative;
+  width: 100%;
+  overflow: visible;
+}
+
+.suggestion-box {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+
+  background-color: #2e2e2e;
+  border: 1px solid #555;
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+  
+  max-height: 250px;
+  overflow-y: auto;
+  display: none;
+  z-index: 1000;
+  
+  /* Fix scrollbar layout bug */
+  scrollbar-width: thin;
+  scrollbar-color: #555 #2e2e2e;
+}
+
+.row {
+  position: relative;
+  width: 100%;
+  overflow: visible;
+}
+
+.suggestion-box ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.suggestion-box ul li {
+  padding: 12px 16px;
+  font-size: 0.95rem;
+  color: #ddd;
+  cursor: pointer;
+  border-bottom: 1px solid #333;
+}
+
+.suggestion-box ul li:hover {
+  background-color: #3a3b3c;
+}
+
+/* Webkit scrollbar (Chrome, Edge, Safari) */
+.suggestion-box::-webkit-scrollbar {
+  width: 6px;
+}
+
+.suggestion-box::-webkit-scrollbar-track {
+  background: #2e2e2e;
+}
+
+.suggestion-box::-webkit-scrollbar-thumb {
+  background-color: #555;
+  border-radius: 3px;
+}
+
 @media (min-width: 768px) {
   .container {
     flex-direction: row;
@@ -139,9 +203,14 @@ body {
   font-size: 0.9rem;
 }
 .input {
-  padding: 0 1rem 0 0.5rem;
-  background-color: #313336;
-  color: white;
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  background-color: #2e2e2e;
+  color: #fff;
+  font-size: 1rem;
+  box-sizing: border-box;
 }
 
 #save-input {
@@ -194,7 +263,7 @@ body {
   color: black;
   text-align: center;
 }
-.qr-image { 
+.qr-image {
   display: block;
   margin: auto;
   cursor: pointer;
@@ -216,10 +285,10 @@ body {
   background-color: #2c2c2c;
   color: white;
   padding: 16px;
-  margin-top:5px;
+  margin-top: 5px;
   margin-bottom: 16px;
   border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border-left: 6px solid #183b4e;
   transition: transform 0.2s ease;
 }
@@ -231,7 +300,7 @@ body {
 .hapus-button {
   margin-top: 10px;
   color: white;
-  background-color: #780C28;
+  background-color: #780c28;
   border: none;
   padding: 8px 16px;
   border-radius: 8px;
@@ -241,7 +310,6 @@ body {
 .hapus-button:hover {
   background-color: #a5123a;
 }
-
 
 html,
 body {

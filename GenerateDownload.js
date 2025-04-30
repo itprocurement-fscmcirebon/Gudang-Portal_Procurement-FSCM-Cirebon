@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
       <div class="data-card">
       <p><strong>Data ${index + 1}:</strong></p>
       <p>Kode Barang: ${data.kodeBarang}</p>
-      <p>Kode Supplier: ${data.namaSupplier}</p>
+      <p>Kode Supplier: ${data.kodeSupplier}</p>
       <p>No Surat Jalan: ${data.noSuratJalan}</p> 
       <p>No PO: ${data.noPo}</p>
       <p>QTY: ${data.qty}</p>
@@ -35,46 +35,52 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Fungsi untuk generate QR Code
   function generateAllQRCode() {
-    qrCodeContainer.innerHTML = ""; // Kosongkan QR Code sebelumnya
-    let savedData = JSON.parse(localStorage.getItem("savedData")) || [];
-
+    const container = document.getElementById("qr-image");
+    if (!container) {
+      console.error("Elemen qr-image tidak ditemukan!");
+      return;
+    }
+  
+    container.innerHTML = "";
+  
+    const savedData = JSON.parse(localStorage.getItem("savedData")) || [];
+  
     if (savedData.length === 0) {
       alert("Tidak ada data untuk dibuat QR Code!");
       return;
     }
-
-    // Gabungkan semua data menjadi satu string
-    let qrData = savedData
+  
+    const qrData = savedData
       .map(
         (data) =>
-          `${data.kodeBarang} | ${data.namaSupplier} | ${data.noSuratJalan} | ${data.noPo} | ${data.qty} | ${data.satuan}`
+          `${data.kodeBarang} | ${data.kodeSupplier} | ${data.noSuratJalan} | ${data.noPo} | ${data.qty} | ${data.satuan}`
       )
-      .join(";\n"); // Pisahkan setiap data dengan baris baru
-
-    // Hapus QR Code lama jika ada
-    qrCodeContainer.innerHTML = "";
-
-    // Buat elemen baru untuk menampung QR Code
+      .join(";\n");
+  
     const qrDiv = document.createElement("div");
     qrDiv.id = "generated-qr";
-    qrCodeContainer.appendChild(qrDiv);
-
-    // Generate QR Code
-    const qrCode = new QRCode(qrDiv, {
-      text: qrData,
-      width: 175,
-      height: 175,
-    });
-
-    // Tunggu QR Code selesai dibuat sebelum mengambil gambar
+    container.appendChild(qrDiv);
+  
+    try {
+      new QRCode(qrDiv, {
+        text: qrData,
+        width: 175,
+        height: 175,
+      });
+    } catch (err) {
+      console.error("Gagal generate QR Code:", err);
+    }
+  
     setTimeout(() => {
-      const qrImg = qrDiv.querySelector("img"); // Ambil elemen img yang dibuat oleh QRCode.js
+      const qrImg = qrDiv.querySelector("img");
 
       if (qrImg) {
-        qrImg.id = "qr-download"; // Tambahkan ID untuk mempermudah seleksi
-        downloadBtn.disabled = false; // Aktifkan tombol download
+        qrImg.id = "qr-download";
+        qrImg.onload = function () {
+          downloadBtn.disabled = false;
+        }
       }
-    }, 500);
+    }, 100);
   }
 
   // Fungsi untuk mendownload QR Code sebagai gambar

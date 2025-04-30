@@ -27,22 +27,36 @@
         <div class="form-section">
           <div class="column">
             <label><b>Kode Barang</b></label>
-            <input
-              type="text"
-              id="kode-barang"
-              class="input"
-              placeholder="Ex: KIBXXX-XXXXX, IMEXXX-XXXXX,...."
-              autocomplete="off"
-            />
-
+            <div class="autocomplete-wrapper">
+              <div class="row">
+                <input
+                  type="text"
+                  id="kode-barang"
+                  class="input"
+                  placeholder="Ex: KIBXXX-XXXXX, IMEXXX-XXXXX,...."
+                  autocomplete="off"
+                />
+              </div>
+              <div class="suggestion-box">
+                <ul></ul>
+              </div>
+            </div>
+            
+            
             <label><b>Kode Supplier</b></label>
-            <input
-              type="text"
-              id="nama-supplier"
-              class="input"
-              placeholder="Ex: SPPXXXXXX"
-              autocomplete="off"
-            />
+            <div class="autocomplete-wrapper">
+              <div class = "row">
+                <input
+                type="text"
+                id="kode-supplier"
+                class="input"
+                placeholder="Ex: SPPXXXXXX"
+                autocomplete="off">
+              </div>
+              <div class="suggestion-box">
+                <ul></ul>
+              </div>
+            </div>
 
             <label><b>No Surat Jalan</b></label>
             <input
