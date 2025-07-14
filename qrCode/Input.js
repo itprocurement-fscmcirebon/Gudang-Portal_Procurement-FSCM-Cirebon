@@ -1,13 +1,41 @@
 document.addEventListener("DOMContentLoaded", function () {
+  // === AMBIL KODE SUPPLIER DARI SESSION LOGIN ===
+  const loggedInSupplierCode = localStorage.getItem("supplierCode");
+  const loggedInSupplierName = localStorage.getItem("supplierName");
+  
+  // === SUPPLIER DATA DARI LOGIN SYSTEM ===
+  const supplierDatabase = {
+    SPP000123: { name: "Radith Fawwaz CV" },
+    SPP000322: { name: "ANEKA GRAFIKA CV" },
+    SPP000471: { name: "ANUGERAH SPAREPARTS SEJAHTERA PT." },
+    SPP000783: { name: "BIOMASA JAYA NUSANTARA PT" },
+    SPP000774: { name: "CAHAYA PRIMA MANDIRI CV" },
+    SPP000693: { name: "CIPTA MAJUJAYA BERSAMA PT" },
+    SPP000563: { name: "HANA CITRA BUANA CV" },
+    SPP000359: { name: "HANWA STEEL SERVICE INDONESIA PT" },
+    SPP000659: { name: "HARAITO MAJU MAPAN PT" },
+    SPP000653: { name: "INDOMETAL MITRABUANA PT" },
+    SPP000072: { name: "INDOPRINT ABADI CV" },
+    SPP000078: { name: "INDUSTRIAL CHEMITOMO NUSANTARA" },
+    SPP000449: { name: "INKOTE INDONESIA PT (JKT)" },
+    SPP000652: { name: "MIRE PRIN COLL PT" },
+    SPP000618: { name: "MITRA NIAGA MAHKOTA PT" },
+    SPP000786: { name: "NISAKA EKA PLASTIK PT" },
+    SPP000772: { name: "PT BESQ SARANA ABADI" },
+    SPP000174: { name: "STAR CHEMICAL INDUSTRY PT" },
+    SPP000362: { name: "TATA KARYA RUBBERINDO" },
+    SPP000742: { name: "TIGER STAR INDONESIA PT" },
+    SPP000729: { name: "TRI CENTRUM FORTUNA PT" },
+    SPP000687: { name: "TRISENTOSA RAYA ESOLUSI PT" },
+    SPP000775: { name: "UD WIDJAYA" },
+    SPP000664: { name: "UNIT TEKNIS KARANG TARUNA" },
+    SPP000180: { name: "UNITED STEEL CENTER INDONESIA PT" },
+    SPP000635: { name: "YOGYA PRESISI TEHNIKATAMA INDUSTRI" },
+  };
+
   // === AUTOCOMPLETE YANG DIOPTIMALKAN ===
-  // list kode supplier
-  const supplierList = [
-    "SPP000322", "SPP000471", "SPP000783", "SPP000774", "SPP000693",
-    "SPP000563", "SPP000359", "SPP000659", "SPP000653", "SPP000072",
-    "SPP000078", "SPP000449", "SPP000652", "SPP000618", "SPP000786",
-    "SPP000772", "SPP000174", "SPP000362", "SPP000742", "SPP000729",
-    "SPP000687", "SPP000775", "SPP000180", "SPP000635"
-  ];
+  // list kode supplier (hanya untuk fallback jika tidak ada session)
+  const supplierList = Object.keys(supplierDatabase);
 
   // Global variables
   let itemList = [];
@@ -34,6 +62,36 @@ document.addEventListener("DOMContentLoaded", function () {
     suggestionBoxSupplier,
     suggestionListSupplier
   });
+
+  // === AUTO-FILL KODE SUPPLIER DARI SESSION LOGIN ===
+  function initializeSupplierCode() {
+    if (loggedInSupplierCode) {
+      console.log("Auto-filling supplier code:", loggedInSupplierCode);
+      inputSupplier.value = loggedInSupplierCode;
+      
+      // Disable input supplier karena sudah ditentukan dari login
+      inputSupplier.disabled = true;
+      inputSupplier.style.backgroundColor = '#475569'; // Warna lebih gelap untuk menunjukkan disabled
+      inputSupplier.style.cursor = 'not-allowed';
+      
+      // Tambahkan tooltip atau info untuk user
+      inputSupplier.title = `Kode supplier sudah sesuai dengan login Anda: ${loggedInSupplierName || loggedInSupplierCode}`;
+      
+      // Hide suggestion box untuk supplier karena sudah fixed
+      if (suggestionBoxSupplier) {
+        suggestionBoxSupplier.style.display = 'none !important';
+      }
+      
+      console.log("Supplier code initialized:", {
+        code: loggedInSupplierCode,
+        name: loggedInSupplierName
+      });
+    } else {
+      console.warn("No supplier code found in session. User might not be logged in.");
+      // Tetap enable autocomplete jika tidak ada session (fallback)
+      inputSupplier.disabled = false;
+    }
+  }
   
   // Fetch data dan buat indeks pencarian
   function fetchItemData() {
@@ -151,13 +209,23 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
   
-  // Render fungsi untuk supplier
+  // Render fungsi untuk supplier (hanya jika tidak ada session login)
   function renderSuggestionSupplier(filteredSuppliers) {
+    // Jangan tampilkan suggestion jika sudah ada supplier dari login
+    if (loggedInSupplierCode) {
+      return;
+    }
+    
     console.log("Rendering supplier suggestions:", filteredSuppliers?.length);
     
     if (filteredSuppliers && filteredSuppliers.length > 0) {
       let htmlSuggestions = filteredSuppliers
-        .map(item => `<li class="suggestion-item">${item}</li>`)
+        .map(supplierCode => {
+          const supplierName = supplierDatabase[supplierCode]?.name || '';
+          return `<li class="suggestion-item" data-code="${supplierCode}">
+            ${supplierCode} - ${supplierName}
+          </li>`;
+        })
         .join('');
       
       suggestionListSupplier.innerHTML = htmlSuggestions;
@@ -176,9 +244,15 @@ document.addEventListener("DOMContentLoaded", function () {
   }, 150); // 150ms debounce
   
   const handleSupplierInput = debounce(function() {
+    // Jangan proses input jika supplier sudah ditentukan dari login
+    if (loggedInSupplierCode) {
+      return;
+    }
+    
     const inputVal = inputSupplier.value.trim().toLowerCase();
     const filteredSuppliers = supplierList.filter(supplier => 
-      supplier.toLowerCase().includes(inputVal)
+      supplier.toLowerCase().includes(inputVal) || 
+      (supplierDatabase[supplier]?.name || '').toLowerCase().includes(inputVal)
     );
     renderSuggestionSupplier(filteredSuppliers);
   }, 150); // 150ms debounce
@@ -194,16 +268,19 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
   
-  // Event listener untuk click pada suggestion supplier
-  suggestionBoxSupplier.addEventListener('click', function(e) {
-    e.stopPropagation(); // Hindari event bubbling ke document
-    
-    if (e.target.classList.contains('suggestion-item')) {
-      inputSupplier.value = e.target.textContent;
-      suggestionBoxSupplier.style.display = 'none';
-      console.log("Selected supplier:", e.target.textContent);
-    }
-  });
+  // Event listener untuk click pada suggestion supplier (hanya jika tidak ada session)
+  if (!loggedInSupplierCode) {
+    suggestionBoxSupplier.addEventListener('click', function(e) {
+      e.stopPropagation(); // Hindari event bubbling ke document
+      
+      if (e.target.classList.contains('suggestion-item')) {
+        const supplierCode = e.target.dataset.code;
+        inputSupplier.value = supplierCode;
+        suggestionBoxSupplier.style.display = 'none';
+        console.log("Selected supplier:", supplierCode);
+      }
+    });
+  }
   
   // Tutup suggestion box ketika klik diluar box
   document.addEventListener('click', function(e) {
@@ -212,8 +289,8 @@ document.addEventListener("DOMContentLoaded", function () {
       suggestionBoxBarang.style.display = 'none';
     }
     
-    // Hide suggestion box for supplier if click is outside
-    if (e.target !== inputSupplier && !suggestionBoxSupplier.contains(e.target)) {
+    // Hide suggestion box for supplier if click is outside (hanya jika tidak ada session)
+    if (!loggedInSupplierCode && e.target !== inputSupplier && !suggestionBoxSupplier.contains(e.target)) {
       suggestionBoxSupplier.style.display = 'none';
     }
   });
@@ -227,29 +304,39 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 50);
   });
   
-  inputSupplier.addEventListener('focus', function() {
-    setTimeout(() => {
-      renderSuggestionSupplier(supplierList);
-    }, 50);
-  });
+  // Focus handler untuk supplier (hanya jika tidak ada session)
+  if (!loggedInSupplierCode) {
+    inputSupplier.addEventListener('focus', function() {
+      setTimeout(() => {
+        renderSuggestionSupplier(supplierList);
+      }, 50);
+    });
+  }
   
   // Input events
   inputBarang.addEventListener('input', handleBarangInput);
-  inputSupplier.addEventListener('input', handleSupplierInput);
+  
+  // Input event untuk supplier hanya jika tidak ada session
+  if (!loggedInSupplierCode) {
+    inputSupplier.addEventListener('input', handleSupplierInput);
+  }
   
   // Menghentikan event propagation ketika klik di dalam input
   inputBarang.addEventListener('click', function(e) {
     e.stopPropagation();
   });
   
-  inputSupplier.addEventListener('click', function(e) {
-    e.stopPropagation();
-  });
+  if (!loggedInSupplierCode) {
+    inputSupplier.addEventListener('click', function(e) {
+      e.stopPropagation();
+    });
+  }
   
   // Utility function untuk menampilkan error
   function showErrorMessage(message) {
     console.error(message);
     // Implementasi sesuai UI - misalnya alert atau toast notification
+    // Anda bisa menambahkan UI notification di sini
   }
   
   // === SAVE INPUT ===
@@ -274,6 +361,12 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
+    // Validasi kode supplier harus sesuai dengan yang login (jika ada session)
+    if (loggedInSupplierCode && kodeSupplier !== loggedInSupplierCode) {
+      alert(`Kode Supplier harus sesuai dengan akun login Anda: ${loggedInSupplierCode}`);
+      return;
+    }
+
     // Simpan ke localStorage
     let savedData = JSON.parse(localStorage.getItem("savedData")) || [];
 
@@ -282,21 +375,50 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    savedData.push({ kodeBarang, kodeSupplier, noSuratJalan, noPo, qty, satuan });
+    // Tambahkan informasi supplier name jika ada
+    const supplierName = loggedInSupplierName || supplierDatabase[kodeSupplier]?.name || '';
+    
+    const dataToSave = {
+      kodeBarang, 
+      kodeSupplier, 
+      supplierName,
+      noSuratJalan, 
+      noPo, 
+      qty, 
+      satuan,
+      timestamp: new Date().toISOString(),
+      loginSession: loggedInSupplierCode ? true : false
+    };
+
+    savedData.push(dataToSave);
     localStorage.setItem("savedData", JSON.stringify(savedData));
 
-    alert("Data berhasil disimpan!");
+    alert(`Data berhasil disimpan untuk ${supplierName ? `${kodeSupplier} - ${supplierName}` : kodeSupplier}!`);
 
-    // Clear input
+    // Clear input (kecuali kode supplier jika dari session login)
     document.getElementById("kode-barang").value = "";
-    document.getElementById("kode-supplier").value = "";
+    if (!loggedInSupplierCode) {
+      document.getElementById("kode-supplier").value = "";
+    }
     document.getElementById("no-surat-jalan").value = "";
     document.getElementById("no-po").value = "";
     document.getElementById("qty").value = "";
     document.getElementById("satuan").value = "";
   });
   
-  // Initialize - load data
+  // === INITIALIZATION ===
   console.log("Initializing autocomplete...");
+  
+  // Initialize supplier code dari session login
+  initializeSupplierCode();
+  
+  // Initialize item data
   fetchItemData();
+  
+  // Debug info
+  console.log("Session Info:", {
+    supplierCode: loggedInSupplierCode,
+    supplierName: loggedInSupplierName,
+    isLoggedIn: localStorage.getItem("isLoggedIn")
+  });
 });

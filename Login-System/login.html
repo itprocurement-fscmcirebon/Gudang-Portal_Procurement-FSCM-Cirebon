@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - Portal Gudang FSCM Cirebon</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Login Portal</h1>
+    <p>Masukkan kode supplier dan password untuk mengakses layanan</p>
+    
+    <form id="loginForm" class="login-form">
+      <div class="form-group">
+        <label for="supplierCode">Kode Supplier</label>
+        <input 
+          type="text" 
+          id="supplierCode" 
+          name="supplierCode" 
+          placeholder="Masukkan kode supplier"
+          required
+          autocomplete="username"
+        />
+      </div>
+      
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input 
+          type="password" 
+          id="password" 
+          name="password" 
+          placeholder="Masukkan password"
+          required
+          autocomplete="current-password"
+        />
+      </div>
+      
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">
+          <span class="btn-text">Masuk</span>
+          <span class="btn-loading" style="display: none;">Loading...</span>
+        </button>
+      </div>
+    </form>
+    
+    <!-- Logout Section (shown when already logged in) -->
+    <div id="logoutSection" class="logout-section" style="display: none;">
+      <p class="logout-info">Ingin login dengan akun yang berbeda?</p>
+      <button type="button" id="logoutBtn" class="btn btn-secondary btn-small">
+        Logout & Ganti Akun
+      </button>
+    </div>
+    
+    <!-- Error/Success Messages -->
+    <div id="messageContainer" class="message-container" style="display: none;">
+      <div id="messageText" class="message-text"></div>
+    </div>
+  </div>
+  
+  <script src="login.js"></script>
+</body>
+</html>

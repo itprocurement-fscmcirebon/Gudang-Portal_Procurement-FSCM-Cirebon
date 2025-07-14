@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Booking Drop Barang - FSCM Cirebon</title>
+    <link rel="stylesheet" href="../bookingGudang/booking.css" />
+  </head>
+  <body>
+    <header>
+      <img
+        src="../assets/gambar-fscm.png"
+        alt="FSCM Manufacturing Indonesia"
+        class="logo-fscm"
+      />
+      <nav>
+        <ul>
+          <li><a href="../landingPage/index.html">Home</a></li>
+          <li><a href="../bookingGudang/riwayat-booking.html">Riwayat Booking</a></li>
+          <li>
+            <a
+              href="https://docs.google.com/spreadsheets/d/1dncD5DLP4w0zrGRAX9MiLFyp5wbzsx5XSpo6AhHPD1I/edit?usp=sharing"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Jadwal Booking (Google Sheet)</a
+            >
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <div class="container">
+      <h1>Form Booking Drop Barang</h1>
+
+      <form id="bookingForm">
+        <!-- Kode Supplier dengan Autocomplete -->
+        <label for="supplier">Kode Supplier</label>
+        <div class="input-container">
+          <input
+            type="text"
+            name="supplier"
+            placeholder="Ketik untuk mencari kode supplier..."
+            required
+          />
+          <div class="suggestion-box" style="display: none">
+            <ul></ul>
+          </div>
+        </div>
+
+        <!-- Tanggal Pengiriman -->
+        <label for="tanggal">Tanggal Pengiriman</label>
+        <input type="date" name="tanggal" id="tanggal" required />
+
+        <!-- Sesi Waktu -->
+        <label for="slot">Sesi Waktu</label>
+        <div class="input-container">
+          <select name="slot" id="slot" required>
+            <option value="" disabled selected>Pilih Jam</option>
+            <!-- diisi dinamis -->
+          </select>
+        </div>
+
+        <!-- Catatan -->
+        <label for="catatan">Catatan</label>
+        <textarea name="catatan" rows="3"></textarea>
+
+        <button type="submit">Booking Sekarang</button>
+        <div id="formStatus" class="status-message" style="display: none"></div>
+      </form>
+    </div>
+    <footer>
+      <p class="title">
+        &copy; Procurement - FSCM Manufacturing Indonesia 2025 (Cirebon Plant)
+      </p>
+    </footer>
+    <script src="../bookingGudang/booking.js"></script>
+  </body>
+</html>

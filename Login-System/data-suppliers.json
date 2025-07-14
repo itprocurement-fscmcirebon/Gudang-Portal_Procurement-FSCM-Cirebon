@@ -1,0 +1,137 @@
+{
+  "SPP000123": {
+    "password": "coba@2025",
+    "name": "Radith Fawwaz CV",
+    "status": "active"
+  },
+  "SPP000456": {
+    "password": "coba@123",
+    "name": "Aydin CV",
+    "status": "active"
+  },
+  "SPP000322": {
+    "password": "ANE322@2025",
+    "name": "ANEKA GRAFIKA CV",
+    "status": "active"
+  },
+  "SPP000471": {
+    "password": "ANU471@2025",
+    "name": "ANUGERAH SPAREPARTS SEJAHTERA PT.",
+    "status": "active"
+  },
+  "SPP000783": {
+    "password": "BIO783@2025",
+    "name": "BIOMASA JAYA NUSANTARA PT",
+    "status": "active"
+  },
+  "SPP000774": {
+    "password": "CAH774@2025",
+    "name": "CAHAYA PRIMA MANDIRI CV",
+    "status": "active"
+  },
+  "SPP000693": {
+    "password": "CIP693@2025",
+    "name": "CIPTA MAJUJAYA BERSAMA PT",
+    "status": "active"
+  },
+  "SPP000563": {
+    "password": "HAN563@2025",
+    "name": "HANA CITRA BUANA CV",
+    "status": "active"
+  },
+  "SPP000359": {
+    "password": "HAN359@2025",
+    "name": "HANWA STEEL SERVICE INDONESIA PT",
+    "status": "active"
+  },
+  "SPP000659": {
+    "password": "HAR659@2025",
+    "name": "HARAITO MAJU MAPAN PT",
+    "status": "active"
+  },
+  "SPP000653": {
+    "password": "IND653@2025",
+    "name": "INDOMETAL MITRABUANA PT",
+    "status": "active"
+  },
+  "SPP000072": {
+    "password": "IND072@2025",
+    "name": "INDOPRINT ABADI CV",
+    "status": "active"
+  },
+  "SPP000078": {
+    "password": "IND078@2025",
+    "name": "INDUSTRIAL CHEMITOMO NUSANTARA",
+    "status": "active"
+  },
+  "SPP000449": {
+    "password": "INK449@2025",
+    "name": "INKOTE INDONESIA PT (JKT)",
+    "status": "active"
+  },
+  "SPP000652": {
+    "password": "MIR652@2025",
+    "name": "MIRE PRIN COLL PT",
+    "status": "active"
+  },
+  "SPP000618": {
+    "password": "MIT618@2025",
+    "name": "MITRA NIAGA MAHKOTA PT",
+    "status": "active"
+  },
+  "SPP000786": {
+    "password": "NIS786@2025",
+    "name": "NISAKA EKA PLASTIK PT",
+    "status": "active"
+  },
+  "SPP000772": {
+    "password": "PTB772@2025",
+    "name": "PT BESQ SARANA ABADI",
+    "status": "active"
+  },
+  "SPP000174": {
+    "password": "STA174@2025",
+    "name": "STAR CHEMICAL INDUSTRY PT",
+    "status": "active"
+  },
+  "SPP000362": {
+    "password": "TAT362@2025",
+    "name": "TATA KARYA RUBBERINDO",
+    "status": "active"
+  },
+  "SPP000742": {
+    "password": "TIG742@2025",
+    "name": "TIGER STAR INDONESIA PT",
+    "status": "active"
+  },
+  "SPP000729": {
+    "password": "TRI729@2025",
+    "name": "TRI CENTRUM FORTUNA PT",
+    "status": "active"
+  },
+  "SPP000687": {
+    "password": "TRI687@2025",
+    "name": "TRISENTOSA RAYA ESOLUSI PT",
+    "status": "active"
+  },
+  "SPP000775": {
+    "password": "UDW775@2025",
+    "name": "UD WIDJAYA",
+    "status": "active"
+  },
+  "SPP000664": {
+    "password": "UNI664@2025",
+    "name": "UNIT TEKNIS KARANG TARUNA",
+    "status": "active"
+  },
+  "SPP000180": {
+    "password": "UNI180@2025",
+    "name": "UNITED STEEL CENTER INDONESIA PT",
+    "status": "active"
+  },
+  "SPP000635": {
+    "password": "YOG635@2025",
+    "name": "YOGYA PRESISI TEHNIKATAMA INDUSTRI",
+    "status": "active"
+  }
+}

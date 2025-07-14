@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Portal Gudang - FSCM Cirebon</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="userInfo" class="user-info" style="display: none;">
+    <div class="welcome-text">
+      <span id="welcomeMessage">Selamat datang!</span>
+      <button id="logoutBtn" class="logout-btn">Logout</button>
+    </div>
+  </div>
+
+  <div class="container">
+    <h1>Gudang FSCM - Portal</h1>
+    <p id="portalDescription">Silakan pilih layanan yang ingin Anda gunakan:</p>
+    
+    <div class="buttons">
+      <a href="../bookingGudang/booking.html" class="btn">Booking Pengiriman Barang</a>
+      <a href="../qrCode/Input.html" class="btn secondary">Scan / Generate QR Code</a>
+    </div>
+    
+    <!-- Login Required Message -->
+    <div id="loginRequired" class="login-required" style="display: none;">
+      <p>Anda perlu login terlebih dahulu untuk mengakses layanan.</p>
+      <a href="../Login-System/login.html" class="btn btn-primary">Login Sekarang</a>
+    </div>
+  </div>
+  
+  <script src="portal.js"></script>
+</body>
+</html>

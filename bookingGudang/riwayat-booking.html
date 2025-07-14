@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Riwayat Booking - FSCM Cirebon</title>
+    <link rel="stylesheet" href="../bookingGudang/riwayat-booking.css" />
+  </head>
+  <body>
+    <header>
+      <img
+        src="../assets/gambar-fscm.png"
+        alt="FSCM Manufacturing Indonesia"
+        class="logo-fscm"
+      />
+      <nav>
+        <ul>
+          <li><a href="../landingPage/index.html">Home</a></li>
+          <li><a href="../bookingGudang/booking.html">Booking Baru</a></li>
+          <li>
+            <a
+              href="https://docs.google.com/spreadsheets/d/1dncD5DLP4w0zrGRAX9MiLFyp5wbzsx5XSpo6AhHPD1I/edit?usp=sharing"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Jadwal Booking (Google Sheet)</a
+            >
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <div class="container">
+      <div class="header-section">
+        <h1>Riwayat Booking</h1>
+        <div class="supplier-info">
+          <span id="supplierDisplay">Loading...</span>
+        </div>
+      </div>
+
+      <!-- Filter dan Search -->
+      <div class="filter-section">
+        <div class="filter-row">
+          <div class="filter-group">
+            <label for="filterDateFrom">Dari Tanggal:</label>
+            <input type="date" id="filterDateFrom" />
+          </div>
+
+          <div class="filter-group">
+            <label for="filterDateTo">Sampai Tanggal:</label>
+            <input type="date" id="filterDateTo" />
+          </div>
+
+          <div class="filter-group">
+            <label for="filterStatus">Filter Status:</label>
+            <select id="filterStatus">
+              <option value="">Semua Status</option>
+              <option value="selesai">Sudah Selesai</option>
+              <option value="terdekat">Terdekat (< 24 jam)</option>
+              <option value="terjadwal">Terjadwal</option>
+              <option value="dibatalkan">Dibatalkan</option>
+            </select>
+          </div>
+
+          <div class="filter-actions">
+            <button id="btnFilter" class="btn-filter">Filter</button>
+            <button id="btnReset" class="btn-reset">Reset</button>
+            <button id="btnRefresh" class="btn-refresh">Refresh</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Loading State -->
+      <div id="loadingState" class="loading-state">
+        <div class="spinner"></div>
+        <p>Memuat Riwayat Booking...</p>
+      </div>
+
+      <!-- Empty State -->
+      <div id="emptyState" class="empty-state" style="display: none">
+        <div class="empty-icon">📋</div>
+        <h3>Belum Ada Riwayat Booking</h3>
+        <p>
+          Anda belum memiliki riwayat booking. Mulai dengan membuat booking
+          baru.
+        </p>
+        <a href="../bookingGudang/booking.html" class="btn-primary"
+          >Buat Booking Baru</a
+        >
+      </div>
+
+      <!-- History Table -->
+      <div id="historyTable" class="table-section" style="display: none">
+        <div class="table-header">
+          <h3>Daftar Booking</h3>
+          <div class="table-actions">
+            <a class="btn btn-primary" href="../bookingGudang/booking.html"
+              >+ Booking Baru</a
+            >
+          </div>
+        </div>
+
+        <div class="table-wrapper">
+          <table class="history-table">
+            <thead>
+              <tr>
+                <th>Tanggal Booking</th>
+                <th>Tanggal Kirim</th>
+                <th>Waktu Slot</th>
+                <th>Status</th>
+                <th>Catatan</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="historyTableBody">
+              <!-- Data akan diisi oleh JavaScript -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination" id="paginationContainer" style="display: none">
+          <button id="btnPrevPage" class="btn-page" disabled>
+            « Sebelumnya
+          </button>
+          <div class="page-info">
+            <span id="pageInfo">Halaman 1 dari 1</span>
+          </div>
+          <button id="btnNextPage" class="btn-page" disabled>
+            Selanjutnya »
+          </button>
+        </div>
+      </div>
+
+      <!-- MODAL REVISI JADWAL -->
+      <div id="revisionModal" class="modal revision-modal">
+        <div class="modal-container">
+          <div class="modal-header">
+            <h3>Revisi Jadwal Booking</h3>
+            <button class="modal-close-btn" onclick="closeRevisionModal()">
+              &times;
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="current-booking-info">
+              <h4>Booking Saat Ini</h4>
+              <div class="current-booking-details" id="currentBookingDetails">
+                <!-- Detail booking saat ini akan diisi oleh JavaScript -->
+              </div>
+            </div>
+
+            <form class="revision-form" id="revisionForm">
+              <!-- Warning untuk cek jadwal kosong -->
+              <div class="schedule-warning">
+                <span class="warning-icon">⚠️</span>
+                <span
+                  >Pastikan Anda melihat jadwal yang tersedia terlebih
+                  dahulu!</span
+                >
+                <button
+                  type="button"
+                  class="check-schedule-btn"
+                  onclick="checkAvailableSchedule()"
+                >
+                  Cek Jadwal
+                </button>
+              </div>
+              <div class="form-group">
+                <label for="newDate">Tanggal Baru *</label>
+                <input type="date" id="newDate" name="newDate" required />
+              </div>
+
+              <div class="form-group">
+                <label>Pilih Waktu Slot Baru *</label>
+                <div class="time-slots" id="timeSlots">
+                  <!-- Slot 00:00-15:00 dengan interval 30 menit -->
+                  <div class="time-slot-option">
+                    <input
+                      type="radio"
+                      id="slot_0000"
+                      name="timeSlot"
+                      value="00:00-00:30"
+                      required
+                    />
+                    <label for="slot_0000" class="time-slot-label"
+                      >00:00-00:30</label
+                    >
+                  </div>
+                  <div class="time-slot-option">
+                    <input
+                      type="radio"
+                      id="slot_0030"
+                      name="timeSlot"
+                      value="00:30-01:00"
+                      required
+                    />
+                    <label for="slot_0030" class="time-slot-label"
+                      >00:30-01:00</label
+                    >
+                  </div>
+                  <div class="time-slot-option">
+                    <input
+                      type="radio"
+                      id="slot_0100"
+                      name="timeSlot"
+                      value="01:00-01:30"
+                      required
+                    />
+                    <label for="slot_0100" class="time-slot-label"
+                      >01:00-01:30</label
+                    >
+                  </div>
+                  <div class="time-slot-option">
+                    <input
+                      type="radio"
+                      id="slot_0130"
+                      name="timeSlot"
+                      value="01:30-02:00"
+                      required
+                    />
+                    <label for="slot_0130" class="time-slot-label"
+                      >01:30-02:00</label
+                    >
+                  </div>
+                  <div class="time-slot-option">
+                    <input
+                      type="radio"
+                      id="slot_0200"
+                      name="timeSlot"
+                      value="02:00-02:30"
+                      required
+                    />
+                    <label for="slot_0200" class="time-slot-label"
+                      >02:00-02:30</label
+                    >
+                  </div>
+                  <div class="time-slot-option">
+                    <input
+                      type="radio"
+                      id="slot_0230"
+                      name="timeSlot"
+                      value="02:30-03:00"
+                      required
+                    />
+                    <label for="slot_0230" class="time-slot-label"
+                      >02:30-03:00</label
+                    >
+                  </div>
+                  <div class="time-slot-option">
+                    <input
+                      type="radio"
+                      id="slot_0300"
+                      name="timeSlot"
+                      value="03:00-03:30"
+                      required
+                    />
+                    <label for="slot_0300" class="time-slot-label"
+                      >03:00-03:30</label
+                    >
+                  </div>
+                  <div class="time-slot-option">
+                    <input
+                      type="radio"
+                      id="slot_0330"
+                      name="timeSlot"
+                      value="03:30-04:00"
+                      required
+                    />
+                    <label for="slot_0330" class="time-slot-label"
+                      >03:30-04:00</label
+                    >
+                  </div>
+                  <div class="time-slot-option">
+                    <input
+                      type="radio"
+                      id="slot_0400"
+                      name="timeSlot"
+                      value="04:00-04:30"
+                      required
+                    />
+                    <label for="slot_0400" class="time-slot-label"
+                      >04:00-04:30</label
+                    >
+                  </div>
+                  <div class="time-slot-option">
+                    <input
+                      type="radio"
+                      id="slot_0430"
+                      name="timeSlot"
+                      value="04:30-05:00"
+                      required
+                    />
+                    <label for="slot_0430" class="time-slot-label"
+                      >04:30-05:00</label
+                    >
+                  </div>
+                  <div class="time-slot-option">
+                    <input
+                      type="radio"
+                      id="slot_0500"
+                      name="timeSlot"
+                      value="05:00-05:30"
+                      required
+                    />
+                    <label for="slot_0500" class="time-slot-label"
+                      >05:00-05:30</label
+                    >
+                  </div>
+                  <div class="time-slot-option">
+                    <input
+                      type="radio"
+                      id="slot_0530"
+                      name="timeSlot"
+                      value="05:30-06:00"
+                      required
+                    />
+                    <label for="slot_0530" class="time-slot-label"
+                      >05:30-06:00</label
+                    >
+                  </div>
+                  <div class="time-slot-option">
+                    <input
+                      type="radio"
+                      id="slot_0600"
+                      name="timeSlot"
+                      value="06:00-06:30"
+                      required
+                    />
+                    <label for="slot_0600" class="time-slot-label"
+                      >06:00-06:30</label
+                    >
+                  </div>
+                  <div class="time-slot-option">
+                    <input
+                      type="radio"
+                      id="slot_0630"
+                      name="timeSlot"
+                      value="06:30-07:00"
+                      required
+                    />
+                    <label for="slot_0630" class="time-slot-label"
+                      >06:30-07:00</label
+                    >
+                  </div>
+                  <div class="time-slot-option">
+                    <input
+                      type="radio"
+                      id="slot_0700"
+                      name="timeSlot"
+                      value="07:00-07:30"
+                      required
+                    />
+                    <label for="slot_0700" class="time-slot-label"
+                      >07:00-07:30</label
+                    >
+                  </div>
+                  <div class="time-slot-option">
+                    <input
+                      type="radio"
+                      id="slot_0730"
+                      name="timeSlot"
+                      value="07:30-08:00"
+                      required
+                    />
+                    <label for="slot_0730" class="time-slot-label"
+                      >07:30-08:00</label
+                    >
+                  </div>
+                  <div class="time-slot-option">
+                    <input
+                      type="radio"
+                      id="slot_0800"
+                      name="timeSlot"
+                      value="08:00-08:30"
+                      required
+                    />
+                    <label for="slot_0800" class="time-slot-label"
+                      >08:00-08:30</label
+                    >
+                  </div>
+                  <div class="time-slot-option">
+                    <input
+                      type="radio"
+                      id="slot_0830"
+                      name="timeSlot"
+                      value="08:30-09:00"
+                      required
+                    />
+                    <label for="slot_0830" class="time-slot-label"
+                      >08:30-09:00</label
+                    >
+                  </div>
+                  <div class="time-slot-option">
+                    <input
+                      type="radio"
+                      id="slot_0900"
+                      name="timeSlot"
+                      value="09:00-09:30"
+                      required
+                    />
+                    <label for="slot_0900" class="time-slot-label"
+                      >09:00-09:30</label
+                    >
+                  </div>
+                  <div class="time-slot-option">
+                    <input
+                      type="radio"
+                      id="slot_0930"
+                      name="timeSlot"
+                      value="09:30-10:00"
+                      required
+                    />
+                    <label for="slot_0930" class="time-slot-label"
+                      >09:30-10:00</label
+                    >
+                  </div>
+                  <div class="time-slot-option">
+                    <input
+                      type="radio"
+                      id="slot_1000"
+                      name="timeSlot"
+                      value="10:00-10:30"
+                      required
+                    />
+                    <label for="slot_1000" class="time-slot-label"
+                      >10:00-10:30</label
+                    >
+                  </div>
+                  <div class="time-slot-option">
+                    <input
+                      type="radio"
+                      id="slot_1030"
+                      name="timeSlot"
+                      value="10:30-11:00"
+                      required
+                    />
+                    <label for="slot_1030" class="time-slot-label"
+                      >10:30-11:00</label
+                    >
+                  </div>
+                  <div class="time-slot-option">
+                    <input
+                      type="radio"
+                      id="slot_1100"
+                      name="timeSlot"
+                      value="11:00-11:30"
+                      required
+                    />
+                    <label for="slot_1100" class="time-slot-label"
+                      >11:00-11:30</label
+                    >
+                  </div>
+                  <div class="time-slot-option">
+                    <input
+                      type="radio"
+                      id="slot_1130"
+                      name="timeSlot"
+                      value="11:30-12:00"
+                      required
+                    />
+                    <label for="slot_1130" class="time-slot-label"
+                      >11:30-12:00</label
+                    >
+                  </div>
+                  <div class="time-slot-option">
+                    <input
+                      type="radio"
+                      id="slot_1200"
+                      name="timeSlot"
+                      value="12:00-12:30"
+                      required
+                    />
+                    <label for="slot_1200" class="time-slot-label"
+                      >12:00-12:30</label
+                    >
+                  </div>
+                  <div class="time-slot-option">
+                    <input
+                      type="radio"
+                      id="slot_1230"
+                      name="timeSlot"
+                      value="12:30-13:00"
+                      required
+                    />
+                    <label for="slot_1230" class="time-slot-label"
+                      >12:30-13:00</label
+                    >
+                  </div>
+                  <div class="time-slot-option">
+                    <input
+                      type="radio"
+                      id="slot_1300"
+                      name="timeSlot"
+                      value="13:00-13:30"
+                      required
+                    />
+                    <label for="slot_1300" class="time-slot-label"
+                      >13:00-13:30</label
+                    >
+                  </div>
+                  <div class="time-slot-option">
+                    <input
+                      type="radio"
+                      id="slot_1330"
+                      name="timeSlot"
+                      value="13:30-14:00"
+                      required
+                    />
+                    <label for="slot_1330" class="time-slot-label"
+                      >13:30-14:00</label
+                    >
+                  </div>
+                  <div class="time-slot-option">
+                    <input
+                      type="radio"
+                      id="slot_1400"
+                      name="timeSlot"
+                      value="14:00-14:30"
+                      required
+                    />
+                    <label for="slot_1400" class="time-slot-label"
+                      >14:00-14:30</label
+                    >
+                  </div>
+                  <div class="time-slot-option">
+                    <input
+                      type="radio"
+                      id="slot_1430"
+                      name="timeSlot"
+                      value="14:30-15:00"
+                      required
+                    />
+                    <label for="slot_1430" class="time-slot-label"
+                      >14:30-15:00</label
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="revisionReason">Alasan Revisi *</label>
+                <textarea
+                  id="revisionReason"
+                  name="revisionReason"
+                  placeholder="Jelaskan alasan revisi jadwal..."
+                  required
+                ></textarea>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn-modal btn-modal-cancel"
+              onclick="closeRevisionModal()"
+            >
+              Batal
+            </button>
+            <button
+              type="button"
+              class="btn-modal btn-modal-submit"
+              onclick="submitRevision()"
+              id="submitRevisionBtn"
+            >
+              <span class="btn-text">Simpan Revisi</span>
+              <div class="loading-spinner" style="display: none"></div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- MODAL PEMBATALAN -->
+      <div id="cancelModal" class="modal cancel-modal">
+        <div class="modal-container">
+          <div class="modal-header">
+            <h3>Pembatalan Booking</h3>
+            <button class="modal-close-btn" onclick="closeCancelModal()">
+              &times;
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="cancel-info">
+              <h4>
+                <span class="warning-icon">⚠️</span>
+                Konfirmasi Pembatalan
+              </h4>
+              <p>Anda akan membatalkan booking berikut:</p>
+
+              <div class="booking-details" id="cancelBookingDetails">
+                <!-- Detail booking akan diisi oleh JavaScript -->
+              </div>
+
+              <div class="cancel-reason">
+                <label for="cancelReason">Alasan Pembatalan </label>
+                <textarea
+                  id="cancelReason"
+                  name="cancelReason"
+                  placeholder="Jelaskan alasan pembatalan..."
+                  required
+                ></textarea>
+              </div>
+
+              <div class="cancel-warning">
+                <strong>Perhatian:</strong> Pembatalan booking tidak dapat
+                dibatalkan. Pastikan keputusan Anda sudah tepat sebelum
+                melanjutkan.
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn-modal btn-modal-cancel"
+              onclick="closeCancelModal()"
+            >
+              Tidak, Kembali
+            </button>
+            <button
+              type="button"
+              class="btn-modal btn-modal-danger"
+              onclick="confirmCancellation()"
+              id="confirmCancelBtn"
+            >
+              <span class="btn-text">Ya, Batalkan Booking</span>
+              <div class="loading-spinner" style="display: none"></div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Status Message -->
+    <div id="statusMessage" class="status-message" style="display: none"></div>
+    <footer>
+      <p class="title">
+        &copy; Procurement - FSCM Manufacturing Indonesia 2025 (Cirebon Plant)
+      </p>
+    </footer>
+
+    <script src="../bookingGudang/riwayat-booking.js"></script>
+  </body>
+</html>
