@@ -3,7 +3,10 @@ function generateTimeSlots(startHour = 0, endHour = 15, intervalMins = 30) {
   const slotDropdown = document.getElementById("slot");
   if (!slotDropdown) return;
 
-  slotDropdown.innerHTML = ""; // Clear existing options (if any)
+  slotDropdown.innerHTML = "";
+
+  // Tambahkan option default yang tidak bisa dipilih
+  slotDropdown.appendChild(new Option("Pilih Jam", "", true, true)).disabled = true;
 
   const start = startHour * 60;
   const end = endHour * 60;
@@ -13,8 +16,12 @@ function generateTimeSlots(startHour = 0, endHour = 15, intervalMins = 30) {
     const m1 = String(m % 60).padStart(2, "0");
     const h2 = String(Math.floor((m + intervalMins) / 60)).padStart(2, "0");
     const m2 = String((m + intervalMins) % 60).padStart(2, "0");
-    const label = `${h1}:${m1} - ${h2}:${m2}`;
-    slotDropdown.appendChild(new Option(label, label));
+    
+    // PERBAIKAN: Pisahkan antara nilai (value) dan tampilan (label)
+    const value = `${h1}:${m1}-${h2}:${m2}`;      // Nilai untuk dikirim ke backend (tanpa spasi)
+    const label = `${h1}:${m1} - ${h2}:${m2}`;    // Teks yang dilihat pengguna (dengan spasi)
+    
+    slotDropdown.appendChild(new Option(label, value));
   }
 }
 
