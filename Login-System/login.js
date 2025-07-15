@@ -133,7 +133,7 @@ function isSessionValid() {
 
 function redirectToPortal() {
   setTimeout(() => {
-    window.location.href = "../landingPage/index.html";
+    window.location.href = "../index.html";
   }, 1000);
 }
 
