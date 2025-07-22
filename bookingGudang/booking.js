@@ -298,7 +298,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const submitUrl =
-      "https://script.google.com/macros/s/AKfycbxYn6TqCs9vb1YoHLsc5dJQKfYmwrMVs_Zw6pRljCLfayHpOXUNLkaKSawHSLH5FakO/exec";
+      "https://script.google.com/macros/s/AKfycbxTBxSZCo8AlZ3x6OeMmK9m9DAHSQ6X6REz9qzpQktaHFvUgq0lVFCEq97CvC51hSwK/exec";
 
     try {
       // --- PERUBAHAN PESAN 1: PESAN SAAT LOADING ---

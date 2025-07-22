@@ -12,7 +12,7 @@ let currentBookingForCancellation = null;
 
 // Google Apps Script Web App URLs
 const FETCH_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbxYn6TqCs9vb1YoHLsc5dJQKfYmwrMVs_Zw6pRljCLfayHpOXUNLkaKSawHSLH5FakO/exec";
+  "https://script.google.com/macros/s/AKfycbxTBxSZCo8AlZ3x6OeMmK9m9DAHSQ6X6REz9qzpQktaHFvUgq0lVFCEq97CvC51hSwK/exec";
 
 // ===== API FUNCTIONS =====
 const getBookingHistory = async (supplierCode) => {
@@ -1009,7 +1009,7 @@ async function confirmCancellation() {
 // Fungsi untuk cek jadwal yang tersedia
 function checkAvailableSchedule() {
   window.open(
-    "https://docs.google.com/spreadsheets/d/1dncD5DLP4w0zrGRAX9MiLFyp5wbzsx5XSpo6AhHPD1I/edit?usp=sharing",
+    "https://docs.google.com/spreadsheets/d/1hM0e57A0CCTB1Lnw-sO4lSI8JS9pkU6EEf24eZKI7hE/edit?usp=sharing",
     "_blank"
   );
 }
