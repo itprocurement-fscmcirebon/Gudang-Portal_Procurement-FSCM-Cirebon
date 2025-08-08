@@ -1,5 +1,5 @@
 // === Dropdown slot sesi jam (interval 30 menit) ===
-function generateTimeSlots(startHour = 0, endHour = 15, intervalMins = 30) {
+function generateTimeSlots(startHour = 0, endHour = 14, intervalMins = 30) {
   const slotDropdown = document.getElementById("slot");
   if (!slotDropdown) return;
 
