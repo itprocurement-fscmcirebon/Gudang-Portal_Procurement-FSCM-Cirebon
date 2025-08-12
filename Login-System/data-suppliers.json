@@ -133,5 +133,25 @@
     "password": "YOG635@2025",
     "name": "YOGYA PRESISI TEHNIKATAMA INDUSTRI",
     "status": "active"
+  },
+  "SPP000764": {
+    "password": "J0P4K@2025",
+    "name": "Jopak",
+    "status": "active"
+  },
+  "EKS000001": {
+    "password": "ET8J@2025",
+    "name": "Ekspedisi TBJ",
+    "status": "active"
+  },
+  "EKS000002": {
+    "password": "EEK0@2025",
+    "name": "Ekspedisi EKO",
+    "status": "active"
+  },
+  "EKS000003": {
+    "password": "ED1D1N@2025",
+    "name": "Ekspedisi Didin",
+    "status": "active"
   }
 }

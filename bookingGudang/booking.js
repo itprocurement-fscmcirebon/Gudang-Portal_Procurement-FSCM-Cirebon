@@ -57,6 +57,10 @@ const supplierDatabase = {
   SPP000664: { name: "UNIT TEKNIS KARANG TARUNA" },
   SPP000180: { name: "UNITED STEEL CENTER INDONESIA PT" },
   SPP000635: { name: "YOGYA PRESISI TEHNIKATAMA INDUSTRI" },
+  SPP000764: { name: "Jopak" },
+  EKS000001: { name: "Ekspedisi TBJ" },
+  EKS000002: { name: "Ekspedisi EKO" },
+  EKS000003: { name: "Ekspedisi Didin" },
 };
 
 // === DOM Elements ===
